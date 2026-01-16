@@ -113,7 +113,7 @@ def process_pdf_to_word(path):
         return docx
     except: return None
 
-# --- LOGIC DỊCH THUẬT (GIỮ NGUYÊN - VÌ NÓ CHẠY TỐT TRÊN MỌI OS) ---
+# --- LOGIC DỊCH THUẬT (GIỮ NGUYÊN) ---
 translator = GoogleTranslator(source='auto', target='vi')
 
 def safe_trans(text):
@@ -202,7 +202,8 @@ with tab1:
                 p = save_uploaded_file(f)
                 res = process_office_to_pdf(p)
                 if res and os.path.exists(res):
-                    with open(res, "rb") as file: st.download_button("Tải PDF", file, "converted.pdf")
+                    with open(res, "rb") as file:
+                        st.download_button("Tải PDF", file, "converted.pdf")
                 else:
                     st.error("Lỗi chuyển đổi. Trên Web, định dạng phức tạp có thể bị lỗi.")
 
@@ -212,7 +213,8 @@ with tab1:
         if imgs and st.button("Gộp ảnh thành PDF"):
             res = process_img_to_pdf(imgs)
             if res:
-                with open(res, "rb") as file: st.download_button("Tải PDF", file, "images.pdf")
+                with open(res, "rb") as file:
+                    st.download_button("Tải PDF", file, "images.pdf")
     
     st.markdown("---")
     st.markdown("<div class='css-card'><div class='card-header'>PDF ➡ Word</div></div>", unsafe_allow_html=True)
@@ -220,7 +222,9 @@ with tab1:
     if pdf and st.button("Chuyển sang Word"):
         p = save_uploaded_file(pdf)
         res = process_pdf_to_word(p)
-        if res: with open(res, "rb") as f: st.download_button("Tải Word", f, "converted.docx")
+        if res:
+            with open(res, "rb") as f:
+                st.download_button("Tải Word", f, "converted.docx")
 
 with tab2:
     st.info("Dịch thuật giữ nguyên format (Word, Excel, PPT)")
@@ -231,18 +235,21 @@ with tab2:
         if w_t and st.button("Dịch Word"):
             p = save_uploaded_file(w_t)
             res = process_trans_word(p, st.empty())
-            with open(res, "rb") as f: st.download_button("Download", f, "VN_doc.docx")
+            with open(res, "rb") as f:
+                st.download_button("Download", f, "VN_doc.docx")
             
     with col_t2:
         e_t = st.file_uploader("Excel", type=['xlsx'], key='te')
         if e_t and st.button("Dịch Excel"):
             p = save_uploaded_file(e_t)
             res = process_trans_excel(p, st.empty())
-            with open(res, "rb") as f: st.download_button("Download", f, "VN_excel.xlsx")
+            with open(res, "rb") as f:
+                st.download_button("Download", f, "VN_excel.xlsx")
             
     with col_t3:
         p_t = st.file_uploader("PPT", type=['pptx'], key='tp')
         if p_t and st.button("Dịch PPT"):
             p = save_uploaded_file(p_t)
             res = process_trans_ppt(p, st.empty())
-            with open(res, "rb") as f: st.download_button("Download", f, "VN_slide.pptx")
+            with open(res, "rb") as f:
+                st.download_button("Download", f, "VN_slide.pptx")
